@@ -64,9 +64,14 @@ def infer(model, dataset, device):
     acc_num = 0
     #与model.eval()配合使用，表示以下代码段禁用梯度算法，即不改变各层各枝的权重，但是退出该代码段后恢复
     with torch.no_grad():
+        ################    不太懂,语法太怪了    #################
+        #将数据按照先前定义好的一轮轮进行循环
         for data in dataset:
+            #将数据和标签取出
             datas,label = data
+            #把该轮次的数据扔入设备环境神经网络中进行向前计算
             outputs = model(datas.to(device))
+            #由于计算出来的
             predict_y = torch.max(outputs, dim = 1)[1]
             acc_num += torch.eq(predict_y,label.to(device)).sum().item()
         
